@@ -9,6 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    allowedDevOrigins: ['*.replit.dev', '*.repl.co'],
+  },
 }
 
 export default nextConfig
