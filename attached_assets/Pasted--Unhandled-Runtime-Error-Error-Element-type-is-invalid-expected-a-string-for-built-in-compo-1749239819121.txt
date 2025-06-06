@@ -1,0 +1,62 @@
+
+Unhandled Runtime Error
+
+
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check the render method of `Home`.
+
+app/page.tsx (492:19) @ Home
+
+
+  490 |               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-center justify-items-center">
+  491 |                 <ButtonCard title="Run Project" variant="blue" className="h-32">
+> 492 |                   <ReplitRunButton />
+      |                   ^
+  493 |                 </ButtonCard>
+  494 |                 
+  495 |                 <ButtonCard title="View Code" variant="default" className="h-32">
+Call Stack
+15
+
+Hide 14 ignore-listed frame(s)
+createFiberFromTypeAndProps
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (13158:1)
+createFiberFromElement
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (13172:1)
+reconcileChildFibersImpl
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (7428:1)
+eval
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (7606:1)
+reconcileChildren
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (8047:1)
+beginWork
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (10215:1)
+runWithFiberInDEV
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (1510:1)
+performUnitOfWork
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (15119:1)
+workLoopSync
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (14943:39)
+renderRootSync
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (14923:1)
+performWorkOnRoot
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (14453:1)
+performWorkOnRootViaSchedulerTask
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/react-dom/cjs/react-dom-client.development.js (16274:1)
+MessagePort.performWorkUntilDeadline
+node_modules/.pnpm/next@15.2.4_@babel+core@7.27.4_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/compiled/scheduler/cjs/scheduler.development.js (45:1)
+Home
+app/page.tsx (492:19)
+ClientPageRoot
+../src/client/components/client-page.tsx (60:12)
+Was this helpful?
+
+
+
+1
+2
+
+1/1
+
+Next.js 15.2.4 (stale)
