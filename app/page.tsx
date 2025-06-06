@@ -1,319 +1,395 @@
+
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback, useMemo, lazy, Suspense } from "react"
 import { ThemeProvider } from "@/components/theme-provider"
-import ProductivityButton from "@/components/ProductivityButton/ProductivityButton"
-import Version1Button from "@/components/version1_button"
-import Version2Button from "@/components/version2_button"
-import Version4Button from "@/components/version4_button"
-import Version5Button from "@/components/version5_button"
-import Version6Button from "@/components/version6_button"
-import Version7Button from "@/components/version7_button"
-import Version8Button from "@/components/version8_button"
 import { Zap, Timer, Activity } from "lucide-react"
+
+// Lazy load button components for better performance
+const ProductivityButton = lazy(() => import("@/components/ProductivityButton/ProductivityButton"))
+const Version1Button = lazy(() => import("@/components/version1_button"))
+const Version2Button = lazy(() => import("@/components/version2_button"))
+const Version4Button = lazy(() => import("@/components/version4_button"))
+const Version5Button = lazy(() => import("@/components/version5_button"))
+const Version6Button = lazy(() => import("@/components/version6_button"))
+const Version7Button = lazy(() => import("@/components/version7_button"))
+const Version8Button = lazy(() => import("@/components/version8_button"))
+
+// Loading component for suspense
+const ButtonSkeleton = () => (
+  <div className="w-[125px] h-[63px] bg-gray-800/50 rounded-full animate-pulse" />
+)
+
+// Performance-optimized section wrapper
+const Section = ({ 
+  title, 
+  children, 
+  className = "" 
+}: { 
+  title: string
+  children: React.ReactNode
+  className?: string
+}) => (
+  <section className={`mb-16 ${className}`}>
+    <h2 className="text-2xl font-semibold text-white mb-8 tracking-tight">{title}</h2>
+    {children}
+  </section>
+)
+
+// Button demo card component
+const ButtonCard = ({ 
+  title, 
+  children, 
+  variant = "default" 
+}: { 
+  title: string
+  children: React.ReactNode
+  variant?: "default" | "blue" | "gradient"
+}) => {
+  const cardClasses = useMemo(() => {
+    const baseClasses = "p-8 rounded-2xl border backdrop-blur-sm"
+    switch (variant) {
+      case "blue":
+        return `${baseClasses} bg-gradient-to-br from-blue-500/10 via-blue-600/10 to-blue-700/10 border-blue-500/20`
+      case "gradient":
+        return `${baseClasses} bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-400/10 border-white/10`
+      default:
+        return `${baseClasses} bg-black/20 border-white/10`
+    }
+  }, [variant])
+
+  return (
+    <div className={cardClasses}>
+      <h3 className="text-white font-medium mb-4 text-center">{title}</h3>
+      <div className="flex justify-center">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// Comparison timeline component
+const VersionTimeline = () => {
+  const versions = useMemo(() => [
+    { id: 1, name: "Clean Minimal", color: "bg-gray-600" },
+    { id: 2, name: "Enhanced Icon", color: "bg-blue-600" },
+    { id: 3, name: "Glassmorphic", color: "bg-purple-600" },
+    { id: 4, name: "Withdraw Style", color: "bg-green-600" },
+    { id: 5, name: "Compact Blue", color: "bg-blue-500" },
+    { id: 6, name: "Clean Blue", color: "bg-gradient-to-br from-blue-400 to-blue-600" },
+    { id: 7, name: "Enhanced Design", color: "bg-orange-600" },
+    { id: 8, name: "Hybrid Design", color: "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-400" },
+  ], [])
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-8 gap-4 text-xs">
+      {versions.map((version) => (
+        <div key={version.id} className="text-center">
+          <div className={`w-8 h-8 ${version.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold`}>
+            {version.id}
+          </div>
+          <p className="text-gray-400">{version.name}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default function Home() {
   const [clickCount, setClickCount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleAsyncClick = async () => {
+  // Optimized async handler with useCallback
+  const handleAsyncClick = useCallback(async () => {
     setIsLoading(true)
-    // Simulate async operation
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setClickCount((prev) => prev + 1)
-    setIsLoading(false)
-  }
+    try {
+      // Simulate async operation
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      setClickCount((prev) => prev + 1)
+    } catch (error) {
+      console.error("Async operation failed:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
-  const handleErrorClick = async () => {
-    throw new Error("Simulated error for testing")
-  }
+  // Error handler with proper error boundary
+  const handleErrorClick = useCallback(async () => {
+    try {
+      throw new Error("Simulated error for testing")
+    } catch (error) {
+      console.error("Button error:", error)
+    }
+  }, [])
+
+  // Increment counter with useCallback
+  const incrementCounter = useCallback(() => {
+    setClickCount((prev) => prev + 1)
+  }, [])
+
+  // Console handlers with useCallback
+  const handleVersion8Click = useCallback(() => {
+    console.log("🎉 Hybrid Productivity button activated!")
+  }, [])
+
+  const handleVersion1Click = useCallback(() => {
+    console.log("Version 1 clicked!")
+  }, [])
+
+  const handleFocusClick = useCallback(() => {
+    console.log("Focus clicked!")
+  }, [])
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="productivity-ui-theme">
       <main className="min-h-screen bg-gradient-to-br from-[#0F0F0F] via-[#1A1A1A] to-[#121217] p-8">
         <div className="max-w-7xl mx-auto">
+          {/* Optimized header */}
           <header className="text-center mb-16">
-            <h1 className="text-5xl font-bold text-white mb-4 tracking-tight">Complete Button Collection</h1>
+            <h1 className="text-5xl font-bold text-white mb-4 tracking-tight">
+              Complete Button Collection
+            </h1>
             <p className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed">
               Production-ready button components with diverse designs, from glassmorphic to gradient styles
             </p>
           </header>
 
           {/* Version 8: Hybrid Productivity */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 8: Hybrid Productivity</h2>
+          <Section title="Version 8: Hybrid Productivity">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-400/10 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Default</h3>
-                <div className="flex justify-center">
-                  <Version8Button onClick={() => console.log("🎉 Hibrid Productivity gomb aktiválva!")} />
-                </div>
-              </div>
+              <ButtonCard title="Default" variant="gradient">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version8Button onClick={handleVersion8Click} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-400/10 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Custom Text</h3>
-                <div className="flex justify-center">
-                  <Version8Button onClick={() => console.log("Hybrid Focus clicked!")}>Focus</Version8Button>
-                </div>
-              </div>
+              <ButtonCard title="Custom Text" variant="gradient">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version8Button onClick={handleFocusClick}>Focus</Version8Button>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-400/10 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Disabled</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Disabled" variant="gradient">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version8Button disabled />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 1: Clean Minimal Design */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibent text-white mb-8">Version 1: Clean Minimal Design</h2>
+          <Section title="Version 1: Clean Minimal Design">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Default</h3>
-                <div className="flex justify-center">
-                  <Version1Button onClick={() => console.log("Version 1 clicked!")} />
-                </div>
-              </div>
+              <ButtonCard title="Default">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version1Button onClick={handleVersion1Click} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Custom Text</h3>
-                <div className="flex justify-center">
-                  <Version1Button onClick={() => console.log("Focus clicked!")}>Focus</Version1Button>
-                </div>
-              </div>
+              <ButtonCard title="Custom Text">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version1Button onClick={handleFocusClick}>Focus</Version1Button>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Loading State</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Loading State">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version1Button loading />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 2: Enhanced with Icon */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 2: Enhanced with Icon</h2>
+          <Section title="Version 2: Enhanced with Icon">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Default Clock</h3>
-                <div className="flex justify-center">
-                  <Version2Button onClick={() => console.log("Version 2 clicked!")} />
-                </div>
-              </div>
+              <ButtonCard title="Default Clock">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version2Button onClick={handleVersion1Click} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Timer Icon</h3>
-                <div className="flex justify-center">
-                  <Version2Button icon={Timer} onClick={() => console.log("Timer clicked!")}>
+              <ButtonCard title="Timer Icon">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version2Button icon={Timer} onClick={handleFocusClick}>
                     Timer
                   </Version2Button>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Activity Icon</h3>
-                <div className="flex justify-center">
-                  <Version2Button icon={Activity} onClick={() => console.log("Activity clicked!")}>
+              <ButtonCard title="Activity Icon">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version2Button icon={Activity} onClick={handleFocusClick}>
                     Activity
                   </Version2Button>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Loading</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Loading">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version2Button loading />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 3: Glassmorphic ProductivityButton */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 3: Glassmorphic Productivity</h2>
+          <Section title="Version 3: Glassmorphic Productivity">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Default</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Default">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <ProductivityButton
-                    onClick={() => console.log("Glassmorphic clicked!")}
+                    onClick={handleFocusClick}
                     title="Glassmorphic productivity button"
                   />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Glow Effect</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Glow Effect">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <ProductivityButton
                     variant="glow"
-                    onClick={() => console.log("Glow clicked!")}
+                    onClick={handleFocusClick}
                     title="Glow effect button"
                   />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Custom Icon</h3>
-                <div className="flex justify-center">
-                  <ProductivityButton icon={Zap} variant="subtle" onClick={() => console.log("Custom icon clicked!")}>
+              <ButtonCard title="Custom Icon">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <ProductivityButton icon={Zap} variant="subtle" onClick={handleFocusClick}>
                     Boost
                   </ProductivityButton>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 4: Withdraw Button */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 4: Withdraw Button</h2>
+          <Section title="Version 4: Withdraw Button">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Default</h3>
-                <div className="flex justify-center">
-                  <Version4Button onClick={() => console.log("Withdraw clicked!")} />
-                </div>
-              </div>
+              <ButtonCard title="Default">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version4Button onClick={handleFocusClick} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Custom Text</h3>
-                <div className="flex justify-center">
-                  <Version4Button onClick={() => console.log("Transfer clicked!")}>Transfer</Version4Button>
-                </div>
-              </div>
+              <ButtonCard title="Custom Text">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version4Button onClick={handleFocusClick}>Transfer</Version4Button>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Loading State</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Loading State">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version4Button loading />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 5: Compact Blue Button */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 5: Compact Blue Button</h2>
+          <Section title="Version 5: Compact Blue Button">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Blue Gradient</h3>
-                <div className="flex justify-center">
-                  <Version5Button onClick={() => console.log("Blue button clicked!")} />
-                </div>
-              </div>
+              <ButtonCard title="Blue Gradient">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version5Button onClick={handleFocusClick} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Blue No Icon</h3>
-                <div className="flex justify-center">
-                  <Version5Button showIcon={false} onClick={() => console.log("Blue no icon clicked!")} />
-                </div>
-              </div>
+              <ButtonCard title="Blue No Icon">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version5Button showIcon={false} onClick={handleFocusClick} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Loading</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Loading">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version5Button loading />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Disabled</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Disabled">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version5Button disabled />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 6: Enhanced Blue Gradient Productivity */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 6: Enhanced Blue Gradient Productivity</h2>
+          <Section title="Version 6: Enhanced Blue Gradient Productivity">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-blue-500/10 via-blue-600/10 to-blue-700/10 p-6 rounded-2xl border border-blue-500/20 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Clean Design</h3>
-                <div className="flex justify-center">
-                  <Version6Button onClick={() => console.log("🎉 Enhanced Blue Gradient aktiválva!")} />
-                </div>
-              </div>
+              <ButtonCard title="Clean Design" variant="blue">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version6Button onClick={handleVersion8Click} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-gradient-to-br from-blue-500/10 via-blue-600/10 to-blue-700/10 p-6 rounded-2xl border border-blue-500/20 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Custom Text</h3>
-                <div className="flex justify-center">
-                  <Version6Button onClick={() => console.log("Focus mode activated!")}>Focus</Version6Button>
-                </div>
-              </div>
+              <ButtonCard title="Custom Text" variant="blue">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version6Button onClick={handleFocusClick}>Focus</Version6Button>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-gradient-to-br from-blue-500/10 via-blue-600/10 to-blue-700/10 p-6 rounded-2xl border border-blue-500/20 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Loading State</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Loading State" variant="blue">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version6Button loading />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-gradient-to-br from-blue-500/10 via-blue-600/10 to-blue-700/10 p-6 rounded-2xl border border-blue-500/20 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Disabled</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Disabled" variant="blue">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version6Button disabled />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Version 7: Enhanced Productivity Button */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version 7: Enhanced Productivity Button</h2>
+          <Section title="Version 7: Enhanced Productivity Button">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Default with Icon</h3>
-                <div className="flex justify-center">
-                  <Version7Button onClick={() => console.log("Enhanced productivity clicked!")} />
-                </div>
-              </div>
+              <ButtonCard title="Default with Icon">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version7Button onClick={handleFocusClick} />
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Custom Text</h3>
-                <div className="flex justify-center">
-                  <Version7Button onClick={() => console.log("Focus clicked!")}>Focus</Version7Button>
-                </div>
-              </div>
+              <ButtonCard title="Custom Text">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version7Button onClick={handleFocusClick}>Focus</Version7Button>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">No Icon</h3>
-                <div className="flex justify-center">
-                  <Version7Button showIcon={false} onClick={() => console.log("No icon clicked!")}>
+              <ButtonCard title="No Icon">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version7Button showIcon={false} onClick={handleFocusClick}>
                     Minimal
                   </Version7Button>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Loading State</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Loading State">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version7Button loading />
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Interactive Demo */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Interactive Demo</h2>
+          <Section title="Interactive Demo">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Async Operation</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Async Operation">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <Version4Button onClick={handleAsyncClick} loading={isLoading}>
                     {isLoading ? "Processing..." : `Process (${clickCount})`}
                   </Version4Button>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Error Handling</h3>
-                <div className="flex justify-center">
+              <ButtonCard title="Error Handling">
+                <Suspense fallback={<ButtonSkeleton />}>
                   <ProductivityButton
                     onClick={handleErrorClick}
                     variant="glow"
@@ -321,113 +397,63 @@ export default function Home() {
                   >
                     Error Test
                   </ProductivityButton>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
 
-              <div className="bg-black/20 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
-                <h3 className="text-white font-medium mb-4 text-center">Click Counter</h3>
-                <div className="flex justify-center">
-                  <Version6Button onClick={() => setClickCount((prev) => prev + 1)}>
+              <ButtonCard title="Click Counter">
+                <Suspense fallback={<ButtonSkeleton />}>
+                  <Version6Button onClick={incrementCounter}>
                     Clicked {clickCount}x
                   </Version6Button>
-                </div>
-              </div>
+                </Suspense>
+              </ButtonCard>
             </div>
-          </section>
+          </Section>
 
           {/* Comparison Grid */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-white mb-8">Version Comparison</h2>
+          <Section title="Version Comparison">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-              <div className="bg-black/20 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V1</h4>
-                <div className="flex justify-center">
-                  <Version1Button>V1</Version1Button>
-                </div>
-              </div>
-
-              <div className="bg-black/20 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V2</h4>
-                <div className="flex justify-center">
-                  <Version2Button>V2</Version2Button>
-                </div>
-              </div>
-
-              <div className="bg-black/20 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V3</h4>
-                <div className="flex justify-center">
-                  <ProductivityButton>V3</ProductivityButton>
-                </div>
-              </div>
-
-              <div className="bg-black/20 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V4</h4>
-                <div className="flex justify-center">
-                  <Version4Button>V4</Version4Button>
-                </div>
-              </div>
-
-              <div className="bg-black/20 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V5</h4>
-                <div className="flex justify-center">
-                  <Version5Button />
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-blue-500/10 via-blue-600/10 to-blue-700/10 p-4 rounded-xl border border-blue-500/20 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V6</h4>
-                <div className="flex justify-center">
-                  <Version6Button>V6</Version6Button>
-                </div>
-              </div>
-
-              <div className="bg-black/20 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V7</h4>
-                <div className="flex justify-center">
-                  <Version7Button />
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-400/10 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
-                <h4 className="text-white text-sm font-medium mb-3 text-center">V8</h4>
-                <div className="flex justify-center">
-                  <Version8Button>V8</Version8Button>
-                </div>
-              </div>
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((version) => (
+                <ButtonCard key={version} title={`V${version}`} variant={version === 6 ? "blue" : version === 8 ? "gradient" : "default"}>
+                  <Suspense fallback={<ButtonSkeleton />}>
+                    {version === 1 && <Version1Button>V1</Version1Button>}
+                    {version === 2 && <Version2Button>V2</Version2Button>}
+                    {version === 3 && <ProductivityButton>V3</ProductivityButton>}
+                    {version === 4 && <Version4Button>V4</Version4Button>}
+                    {version === 5 && <Version5Button />}
+                    {version === 6 && <Version6Button>V6</Version6Button>}
+                    {version === 7 && <Version7Button />}
+                    {version === 8 && <Version8Button>V8</Version8Button>}
+                  </Suspense>
+                </ButtonCard>
+              ))}
             </div>
-          </section>
+          </Section>
 
           {/* Technical Specifications */}
-          <section className="mb-16">
+          <Section title="Complete Button Specifications">
             <div className="bg-black/30 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
-              <h2 className="text-2xl font-semibold text-white mb-6">Complete Button Specifications</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
                 <div className="space-y-3">
                   <h3 className="text-white font-medium">🎨 Version 1 & 2</h3>
                   <ul className="text-gray-400 space-y-1">
-                    <li>
-                      <strong>V1:</strong> 125×63px, Clean minimal
-                    </li>
-                    <li>
-                      <strong>V2:</strong> 125×63px, Enhanced with icon
-                    </li>
+                    <li><strong>V1:</strong> 125×63px, Clean minimal</li>
+                    <li><strong>V2:</strong> 125×63px, Enhanced with icon</li>
                     <li>Oval shape, subtle gradients</li>
                     <li>Refined shadow system</li>
                   </ul>
                 </div>
+                
                 <div className="space-y-3">
                   <h3 className="text-white font-medium">💎 Version 3 & 8</h3>
                   <ul className="text-gray-400 space-y-1">
-                    <li>
-                      <strong>V3:</strong> 130×60px, Glassmorphic
-                    </li>
-                    <li>
-                      <strong>V8:</strong> 140×70px, Hybrid design
-                    </li>
+                    <li><strong>V3:</strong> 130×60px, Glassmorphic</li>
+                    <li><strong>V8:</strong> 140×70px, Hybrid design</li>
                     <li>Advanced blur effects</li>
                     <li>Premium animations</li>
                   </ul>
                 </div>
+                
                 <div className="space-y-3">
                   <h3 className="text-white font-medium">💰 Version 4</h3>
                   <ul className="text-gray-400 space-y-1">
@@ -437,18 +463,13 @@ export default function Home() {
                     <li>Withdraw style</li>
                   </ul>
                 </div>
+                
                 <div className="space-y-3">
                   <h3 className="text-white font-medium">🔵 Version 5-7</h3>
                   <ul className="text-gray-400 space-y-1">
-                    <li>
-                      <strong>V5:</strong> 64×32px compact
-                    </li>
-                    <li>
-                      <strong>V6:</strong> 140×70px clean design
-                    </li>
-                    <li>
-                      <strong>V7:</strong> 125×63px enhanced
-                    </li>
+                    <li><strong>V5:</strong> 64×32px compact</li>
+                    <li><strong>V6:</strong> 140×70px clean design</li>
+                    <li><strong>V7:</strong> 125×63px enhanced</li>
                     <li>CSS variables integration</li>
                   </ul>
                 </div>
@@ -456,59 +477,10 @@ export default function Home() {
 
               <div className="mt-8 p-6 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-2xl border border-blue-500/20">
                 <h3 className="text-lg font-medium text-white mb-4">Evolution Timeline</h3>
-                <div className="grid grid-cols-1 md:grid-cols-8 gap-4 text-xs">
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-gray-600 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      1
-                    </div>
-                    <p className="text-gray-400">Clean Minimal</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      2
-                    </div>
-                    <p className="text-gray-400">Enhanced Icon</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-purple-600 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      3
-                    </div>
-                    <p className="text-gray-400">Glassmorphic</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-green-600 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      4
-                    </div>
-                    <p className="text-gray-400">Withdraw Style</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      5
-                    </div>
-                    <p className="text-gray-400">Compact Blue</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      6
-                    </div>
-                    <p className="text-gray-400">Clean Blue</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-orange-600 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      7
-                    </div>
-                    <p className="text-gray-400">Enhanced Design</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-400 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">
-                      8
-                    </div>
-                    <p className="text-gray-400">Hybrid Design</p>
-                  </div>
-                </div>
+                <VersionTimeline />
               </div>
             </div>
-          </section>
+          </Section>
         </div>
       </main>
     </ThemeProvider>
