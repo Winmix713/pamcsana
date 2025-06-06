@@ -1,0 +1,206 @@
+
+Ultimate Button
+Collection
+Discover the most comprehensive collection of premium button components, featuring cutting-edge designs from glassmorphic to gradient styles
+
+8 Unique Designs
+Production Ready
+Modern & Clean
+Featured: Hybrid Productivity
+Our flagship button design combining the best elements from all versions
+
+Default State
+Standard hybrid button
+
+Custom Text
+Personalized content
+
+Disabled State
+Inactive button demo
+
+Clean Minimal Design
+Elegant simplicity with refined typography and subtle gradients
+
+Standard
+Default minimal design
+
+Custom Text
+Personalized content
+
+Loading State
+Processing animation
+
+Enhanced Icon Design
+Elevated design with dynamic icons and improved visual hierarchy
+
+Clock Icon
+Time-based productivity
+
+Timer Mode
+Countdown functionality
+
+Activity Tracker
+Progress monitoring
+
+Loading
+Processing state
+
+Glassmorphic Excellence
+Advanced glass morphism with sophisticated blur effects and lighting
+
+Classic Glass
+Standard glassmorphic style
+
+Glow Effect
+Enhanced luminous design
+
+Subtle Variant
+Minimalist glass approach
+
+Interactive Demonstrations
+Test advanced functionality and state management
+
+Async Processing
+Simulated API calls
+
+Error Handling
+Exception management
+
+Click Counter
+State tracking demo
+
+Complete Version Comparison
+Side-by-side comparison of all button variations
+
+V1
+V2
+V3
+V4
+V5
+V6
+V7
+Productivity
+V8
+Technical Specifications & Evolution
+Comprehensive overview of design progression and technical details
+
+🎨
+Minimal Series
+V1: 125×63px, Clean design
+
+V2: 125×63px, Icon enhanced
+
+• Oval geometry • Subtle gradients • Refined shadows
+
+💎
+Premium Series
+V3: 130×60px, Glassmorphic
+
+V8: 140×70px, Hybrid design
+
+• Advanced blur • Premium animations • Multi-variant
+
+💰
+Functional Series
+V4: 256×48px, Withdraw style
+
+V5: 64×32px, Compact design
+
+• Radial gradients • SF Pro font • Business focused
+
+🔵
+Modern Series
+V6: 140×70px, Clean blue
+
+V7: 125×63px, Enhanced
+
+• CSS variables • Modern gradients • Consistent sizing
+
+Design Evolution Timeline
+✨
+Clean Minimal
+
+🎯
+Enhanced Icon
+
+💎
+Glassmorphic
+
+💰
+Withdraw Style
+
+🔵
+Compact Blue
+
+🎨
+Clean Blue
+
+🚀
+Enhanced Design
+
+⚡
+Hybrid Design
+
+Console Error
+
+Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+See more info here: https://nextjs.org/docs/messages/react-hydration-error
+
+
+  ...
+    <HotReload assetPrefix="" globalError={[...]}>
+      <AppDevOverlay state={{nextId:1, ...}} globalError={[...]}>
+        <AppDevOverlayErrorBoundary globalError={[...]} onError={function bound dispatchSetState}>
+          <ReplaySsrOnlyErrors>
+          <DevRootHTTPAccessFallbackBoundary>
+            <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+              <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+                <RedirectBoundary>
+                  <RedirectErrorBoundary router={{...}}>
+                    <Head>
+                    <link>
+                    <RootLayout>
+                      <html
+                        lang="en"
+-                       data-theme="dark"
+-                       style={{color-scheme:"dark"}}
+                      >
+                    ...
+        ...
+app/layout.tsx (16:5) @ RootLayout
+
+
+  14 | }>) {
+  15 |   return (
+> 16 |     <html lang="en">
+     |     ^
+  17 |       <body>{children}</body>
+  18 |     </html>
+  19 |   )
+Call Stack
+17
+
+Show 15 ignore-listed frame(s)
+html
+<anonymous> (0:0)
+RootLayout
+app/layout.tsx (16:5)
+Was this helpful?
+
+
+
+1
+2
+
+1/1
+
+Next.js 15.2.4 (stale)
