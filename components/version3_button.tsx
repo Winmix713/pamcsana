@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useState, memo } from "react"
 import { Clock } from "lucide-react"
 import "./ProductivityButton.css"
 
@@ -14,7 +14,7 @@ interface Version3ButtonProps {
   "aria-label"?: string
 }
 
-export default function Version3Button({
+function Version3Button({
   onClick,
   className = "",
   disabled = false,
@@ -77,3 +77,5 @@ export default function Version3Button({
     </button>
   )
 }
+
+export default memo(Version3Button)

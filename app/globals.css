@@ -1,0 +1,5 @@
+@media (prefers-color-scheme: dark) {
+  .card-base {
+    @apply bg-white/[0.03] border-white/[0.05];
+  }
+}
