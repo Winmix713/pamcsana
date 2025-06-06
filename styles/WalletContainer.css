@@ -1,0 +1,293 @@
+/* Main wallet container with glassmorphic effects from GlassGenerator.netlify.app */
+.wallet-container {
+  position: relative;
+  width: 160px;
+  height: 104px;
+
+  /* Glass effect background */
+  background-color: rgba(23, 23, 23, 0.019);
+
+  /* Glass effect box shadow and borders */
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+  border: 4px rgba(255, 255, 255, 0.4) solid;
+  border-bottom: 4px rgba(40, 40, 40, 0.35) solid;
+  border-right: 4px rgba(40, 40, 40, 0.35) solid;
+
+  /* Glassmorphic backdrop blur */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border-radius: 20px;
+}
+
+/* Hexagonal polygon positioning */
+.polygon-container {
+  position: absolute;
+  left: 11.25%;
+  right: 73.75%;
+  top: 18.27%;
+  bottom: 58.65%;
+}
+
+/* Main label container positioning */
+.wallet-label-container {
+  position: absolute;
+  left: 11.25%;
+  right: 11.25%;
+  top: 53.85%;
+  bottom: 23.08%;
+}
+
+/* Inner container for horizontal bars */
+.wallet-label-inner-container {
+  position: absolute;
+  left: 0%;
+  right: 54.03%;
+  top: 41.67%;
+  bottom: 41.67%;
+}
+
+/* Left horizontal bar */
+.testimonial-browser-tab-inner-left-1 {
+  position: absolute;
+  left: 0%;
+  right: 64.91%;
+  top: 0%;
+  bottom: 0%;
+
+  background: #f8f8f8;
+  opacity: 0.75;
+  border-radius: 8px;
+}
+
+/* Right horizontal bar */
+.testimonial-browser-tab-inner-left-2 {
+  position: absolute;
+  left: 42.11%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+
+  background: #f8f8f8;
+  opacity: 0.75;
+  border-radius: 8px;
+}
+
+/* Right side button container */
+.wallet-label-container-2 {
+  box-sizing: border-box;
+  position: absolute;
+  left: 71.77%;
+  right: -0.81%;
+  top: 0%;
+  bottom: 0%;
+
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 16px 32px -16px rgba(23, 23, 23, 0.4), inset 0px 0px 8px rgba(248, 248, 248, 0.25);
+  border-radius: 6px;
+}
+
+/* Inner button element */
+.wallet-label-inner-container-2 {
+  box-sizing: border-box;
+  position: absolute;
+  left: 11.11%;
+  right: 11.11%;
+  top: 16.67%;
+  bottom: 16.67%;
+
+  background: linear-gradient(0deg, rgba(23, 23, 23, 0.3), rgba(23, 23, 23, 0.3)), rgba(248, 248, 248, 0.01);
+  box-shadow: inset 0px 0px 8px rgba(23, 23, 23, 0.2);
+  border-radius: 2px;
+
+  /* Hover glow effect */
+  transition: all 0.3s ease;
+}
+
+.wallet-label-inner-container-2:hover {
+  box-shadow: inset 0px 0px 8px rgba(23, 23, 23, 0.2), 0px 0px 16px rgba(248, 248, 248, 0.4);
+}
+
+/* Productivity Button - Version 3 Button Styles */
+.productivity-button {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 125px;
+  height: 63px;
+  padding: 9px 21px 8px;
+
+  /* Dark gradient background matching Version3Button */
+  background: linear-gradient(100.09deg, #111214 4.87%, #0c0d0f 75.88%);
+
+  /* Border styling */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: none;
+  border-radius: 31px;
+
+  /* Default shadow with inner highlight */
+  box-shadow: inset 0.25px 1.25px 0px 0.75px rgba(255, 255, 255, 0.1);
+
+  /* Smooth transitions */
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Productivity button hover state */
+.productivity-button:hover {
+  transform: scale(1.05);
+  box-shadow: inset 0.25px 1.25px 0px 0.75px rgba(255, 255, 255, 0.15), 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Productivity button active/pressed state */
+.productivity-button:active {
+  transform: scale(0.95);
+}
+
+/* Productivity button focus state for accessibility */
+.productivity-button:focus {
+  outline: none;
+  box-shadow: inset 0.25px 1.25px 0px 0.75px rgba(255, 255, 255, 0.15), 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Productivity button disabled state */
+.productivity-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.productivity-button:disabled:hover {
+  transform: none;
+  box-shadow: inset 0.25px 1.25px 0px 0.75px rgba(255, 255, 255, 0.1);
+}
+
+/* Productivity button text styling */
+.productivity-button-text {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: 0.3px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  user-select: none;
+  position: relative;
+  z-index: 10;
+}
+
+/* Enhanced text opacity on hover */
+.productivity-button:hover .productivity-button-text {
+  opacity: 1;
+}
+
+/* Disabled text state */
+.productivity-button:disabled .productivity-button-text {
+  opacity: 0.7;
+}
+
+/* Container wrapper for productivity button */
+.productivity-button-container {
+  display: inline-flex;
+  align-items: flex-start;
+  padding: 0 24px 4px;
+  position: relative;
+  width: 173px;
+  max-width: 1252px;
+  height: 69px;
+  overflow-x: auto;
+}
+
+/* Additional glassmorphic enhancement for better browser support */
+@supports not (backdrop-filter: blur(8px)) {
+  .wallet-container {
+    background: linear-gradient(64.48deg, rgba(255, 255, 255, 0.02) 42.36%, rgba(255, 255, 255, 0.06) 100%),
+      linear-gradient(61.91deg, rgba(255, 255, 255, 0.02) -20.01%, rgba(255, 255, 255, 0.07) 75.93%),
+      rgba(248, 248, 248, 0.04);
+  }
+}
+
+/* Glassmorphic productivity button variant */
+.productivity-button--glassmorphic {
+  /* Enhanced glassmorphic background */
+  background: linear-gradient(100.09deg, rgba(17, 18, 20, 0.8) 4.87%, rgba(12, 13, 15, 0.9) 75.88%),
+    rgba(255, 255, 255, 0.02);
+
+  /* Glassmorphic backdrop blur */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* Enhanced border for glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(40, 40, 40, 0.3);
+  border-right: 1px solid rgba(40, 40, 40, 0.3);
+
+  /* Glass shadow effects */
+  box-shadow: inset 0.25px 1.25px 0px 0.75px rgba(255, 255, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px
+    rgba(0, 0, 0, 0.2);
+}
+
+.productivity-button--glassmorphic:hover {
+  background: linear-gradient(100.09deg, rgba(17, 18, 20, 0.9) 4.87%, rgba(12, 13, 15, 0.95) 75.88%),
+    rgba(255, 255, 255, 0.04);
+
+  box-shadow:
+    inset 0.25px 1.25px 0px 0.75px rgba(255, 255, 255, 0.2),
+    0 12px 48px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 24px rgba(255, 255, 255, 0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .productivity-button-container {
+    width: 150px;
+    height: 62px;
+    padding: 0 20px 3px;
+  }
+
+  .productivity-button {
+    width: 110px;
+    height: 56px;
+    padding: 8px 18px 7px;
+  }
+
+  .productivity-button-text {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+  }
+}
+
+/* High DPI displays optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .productivity-button {
+    border-width: 0.5px 0.5px 0px 0.5px;
+  }
+
+  .productivity-button-text {
+    text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .productivity-button {
+    transition: none;
+  }
+
+  .productivity-button:hover {
+    transform: none;
+  }
+
+  .productivity-button:active {
+    transform: none;
+  }
+}

@@ -1,0 +1,157 @@
+/* ProductivityButton.css */
+
+/* Gomb fő konténere – pill-shape, glassmorphic effekttel */
+.productivity-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 60px;
+  padding: 0 20px;
+  background: linear-gradient(145deg, rgba(26, 28, 32, 0.8) 0%, rgba(15, 17, 20, 0.8) 100%);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* külső lebegő árnyék */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), /* belső mélység */ inset 0 -2px 6px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease-in-out;
+}
+
+/* Belső üveg-overlay – finom radialis gradient */
+.productivity-overlay {
+  position: absolute;
+  inset: 6px;
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 80%);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.3s ease;
+}
+
+/* Ikon + szöveg konténer */
+.productivity-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.productivity-content svg {
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+/* Hover-állapot – világosabb effekt, enyhén lebegő árnyék */
+.productivity-button:hover {
+  background: linear-gradient(145deg, rgba(35, 38, 44, 0.9) 0%, rgba(22, 24, 28, 0.9) 100%);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), inset 0 -2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.productivity-button:hover .productivity-content {
+  color: #f0f0f0;
+}
+
+.productivity-button:hover .productivity-overlay {
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* Active (lenyomott) állapot – finom összehúzódás */
+.productivity-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 -1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Focus állapot accessibility-hez */
+.productivity-button:focus {
+  outline: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* Disabled állapot */
+.productivity-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.productivity-button:disabled:hover {
+  background: linear-gradient(145deg, rgba(26, 28, 32, 0.8) 0%, rgba(15, 17, 20, 0.8) 100%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Reszponzív és DPI finomítások */
+@media (max-width: 480px) {
+  .productivity-button {
+    width: 110px;
+    height: 50px;
+    padding: 0 16px;
+  }
+  .productivity-content {
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .productivity-button {
+    border-width: 0.75px;
+  }
+}
+
+/* Reduced‐motion támogatás */
+@media (prefers-reduced-motion: reduce) {
+  .productivity-button {
+    transition: none;
+  }
+  .productivity-content {
+    transition: none;
+  }
+  .productivity-overlay {
+    transition: none;
+  }
+}
+
+/* Loading állapot */
+.productivity-button--loading {
+  pointer-events: none;
+}
+
+.productivity-button--loading .productivity-content {
+  opacity: 0.7;
+}
+
+/* Pulse animáció loading állapothoz */
+@keyframes productivity-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.productivity-button--loading .productivity-overlay {
+  animation: productivity-pulse 2s ease-in-out infinite;
+}
+
+/* Glow variáns */
+.productivity-button--glow {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), inset 0 -2px 6px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.productivity-button--glow:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), inset 0 -2px 8px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.15);
+}

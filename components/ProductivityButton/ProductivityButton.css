@@ -1,0 +1,284 @@
+/**
+ * ProductivityButton Component Styles
+ *
+ * Optimized glassmorphic button with CSS custom properties
+ * for theming and performance-focused animations.
+ */
+
+/* CSS Custom Properties for theming and dynamic sizing */
+.productivity-button {
+  /* Size properties (set via CSS variables) */
+  --btn-width: 130px;
+  --btn-height: 60px;
+  --btn-padding: 0 20px;
+  --btn-font-size: 16px;
+
+  /* Color theme properties */
+  --btn-bg-start: rgba(26, 28, 32, 0.8);
+  --btn-bg-end: rgba(15, 17, 20, 0.8);
+  --btn-bg-hover-start: rgba(35, 38, 44, 0.9);
+  --btn-bg-hover-end: rgba(22, 24, 28, 0.9);
+  --btn-border-color: rgba(255, 255, 255, 0.1);
+  --btn-text-color: #ffffff;
+  --btn-text-hover-color: #f0f0f0;
+  --btn-overlay-color: rgba(255, 255, 255, 0.12);
+  --btn-overlay-hover-color: rgba(255, 255, 255, 0.15);
+
+  /* Shadow properties */
+  --btn-shadow-outer: 0 6px 16px rgba(0, 0, 0, 0.25);
+  --btn-shadow-inner: inset 0 -2px 6px rgba(0, 0, 0, 0.5);
+  --btn-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.3);
+  --btn-shadow-active: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  /* Animation properties */
+  --btn-transition-fast: 0.15s ease-out;
+  --btn-transition-medium: 0.3s ease-out;
+  --btn-blur-amount: 12px;
+}
+
+/* Main button styles */
+.productivity-button {
+  /* Layout */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btn-width);
+  height: var(--btn-height);
+  padding: var(--btn-padding);
+
+  /* Appearance */
+  background: linear-gradient(145deg, var(--btn-bg-start), var(--btn-bg-end));
+  border: 1px solid var(--btn-border-color);
+  border-radius: 999px;
+  box-shadow: var(--btn-shadow-outer), var(--btn-shadow-inner);
+
+  /* Glassmorphic effect */
+  backdrop-filter: blur(var(--btn-blur-amount));
+  -webkit-backdrop-filter: blur(var(--btn-blur-amount));
+
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+
+  /* Performance optimizations */
+  transform: translateZ(0); /* Force hardware acceleration */
+  will-change: transform, box-shadow, background;
+
+  /* Transitions */
+  transition: background var(--btn-transition-medium), box-shadow var(--btn-transition-medium), transform
+    var(--btn-transition-fast), border-color var(--btn-transition-medium);
+}
+
+/* Overlay layer for glassmorphic effect */
+.productivity-button__overlay {
+  position: absolute;
+  inset: 6px;
+  background: radial-gradient(circle at 50% 20%, var(--btn-overlay-color) 0%, transparent 80%);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+  transition: background var(--btn-transition-medium);
+}
+
+/* Content container */
+.productivity-button__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--btn-text-color);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  font-size: var(--btn-font-size);
+  line-height: 1.4;
+  letter-spacing: 0.025em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: color var(--btn-transition-medium);
+}
+
+/* Icon container */
+.productivity-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Spinner animation */
+.productivity-button__spinner {
+  animation: productivity-spin 1s linear infinite;
+}
+
+@keyframes productivity-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Text content */
+.productivity-button__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Focus ring for accessibility */
+.productivity-button__focus-ring {
+  position: absolute;
+  inset: -2px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--btn-transition-fast);
+}
+
+/* Hover state */
+.productivity-button:hover:not(.productivity-button--disabled):not(.productivity-button--loading),
+.productivity-button--hovered:not(.productivity-button--disabled):not(.productivity-button--loading) {
+  background: linear-gradient(145deg, var(--btn-bg-hover-start), var(--btn-bg-hover-end));
+  box-shadow: var(--btn-shadow-hover), var(--btn-shadow-inner);
+}
+
+.productivity-button:hover .productivity-button__content,
+.productivity-button--hovered .productivity-button__content {
+  color: var(--btn-text-hover-color);
+}
+
+.productivity-button:hover .productivity-button__overlay,
+.productivity-button--hovered .productivity-button__overlay {
+  background: radial-gradient(circle at 50% 20%, var(--btn-overlay-hover-color) 0%, transparent 70%);
+}
+
+/* Active/Pressed state */
+.productivity-button:active:not(.productivity-button--disabled):not(.productivity-button--loading),
+.productivity-button--pressed:not(.productivity-button--disabled):not(.productivity-button--loading) {
+  transform: scale(0.96) translateZ(0);
+  box-shadow: var(--btn-shadow-active), inset 0 -1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Focus state for accessibility */
+.productivity-button:focus-visible .productivity-button__focus-ring {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Disabled state */
+.productivity-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading state */
+.productivity-button--loading {
+  pointer-events: none;
+}
+
+.productivity-button--loading .productivity-button__content {
+  opacity: 0.8;
+}
+
+/* Variant: Glow */
+.productivity-button--glow {
+  --btn-shadow-outer: 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.productivity-button--glow:hover:not(.productivity-button--disabled):not(.productivity-button--loading) {
+  --btn-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+/* Variant: Subtle */
+.productivity-button--subtle {
+  --btn-bg-start: rgba(26, 28, 32, 0.6);
+  --btn-bg-end: rgba(15, 17, 20, 0.6);
+  --btn-border-color: rgba(255, 255, 255, 0.05);
+  --btn-overlay-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Size variants */
+.productivity-button--sm {
+  --btn-width: 110px;
+  --btn-height: 50px;
+  --btn-padding: 0 16px;
+  --btn-font-size: 14px;
+}
+
+.productivity-button--lg {
+  --btn-width: 150px;
+  --btn-height: 70px;
+  --btn-padding: 0 24px;
+  --btn-font-size: 18px;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .productivity-button {
+    --btn-width: 110px;
+    --btn-height: 50px;
+    --btn-padding: 0 16px;
+    --btn-font-size: 14px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .productivity-button {
+    border-width: 0.75px;
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .productivity-button,
+  .productivity-button__overlay,
+  .productivity-button__content,
+  .productivity-button__focus-ring {
+    transition: none;
+  }
+
+  .productivity-button__spinner {
+    animation: none;
+  }
+
+  .productivity-button:active,
+  .productivity-button--pressed {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .productivity-button {
+    --btn-border-color: rgba(255, 255, 255, 0.3);
+    --btn-text-color: #ffffff;
+  }
+
+  .productivity-button__focus-ring {
+    border-color: #ffffff;
+  }
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+  .productivity-button {
+    --btn-bg-start: rgba(26, 28, 32, 0.9);
+    --btn-bg-end: rgba(15, 17, 20, 0.9);
+  }
+}
+
+/* Print styles */
+@media print {
+  .productivity-button {
+    background: #333333 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+}
